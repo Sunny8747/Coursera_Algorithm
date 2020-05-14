@@ -1,11 +1,13 @@
 package Union_find;
 
 import edu.princeton.cs.algs4.StdRandom;
-import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 //import edu.princeton.cs.algs4.QuickFindUF;
+
+/*import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.StdIn;
-import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdOut;*/
+
 
 public class Percolation {
     //create n x n grid, all blocked
