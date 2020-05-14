@@ -1,20 +1,21 @@
 package Union_find;
-
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 import edu.princeton.cs.algs4.StdStats;
-import edu.princeton.cs.algs4.Stopwatch;
-
-import java.text.DecimalFormat;
-
-import edu.princeton.cs.algs4.StdIn;
-import edu.princeton.cs.algs4.StdOut;
+//import edu.princeton.cs.algs4.Stopwatch;
+//import edu.princeton.cs.algs4.StdIn;
+//import edu.princeton.cs.algs4.StdOut;
 //import edu.princeton.cs.algs4.QuickFindUF;
 
 public class PercolationStats {
     // perform independent trials on an n-by-n grid
-    double[] value_threshold;
+    private final double[] value_threshold;
+    private final static double CONFIDENCE_95 = 1.96;
+    private double MEAN, STDDEV;
     public PercolationStats(int n, int trials){
+        if(n <= 0 || trials <= 0){
+            throw new IllegalArgumentException();
+        }
         this.value_threshold = new double[trials];
         for(int i = 0; i < trials; i++){
             Percolation pc = new Percolation(n);
@@ -27,29 +28,24 @@ public class PercolationStats {
 
     // sample mean of percolation threshold
     public double mean(){
-        double answer = StdStats.mean(this.value_threshold);
-        return answer;
+        this.MEAN = StdStats.mean(this.value_threshold);
+        return this.MEAN;
     }
 
     // sample standard deviation of percolation threshold
     public double stddev(){
-        double answer = 0;
-        double mean = mean();
-        for(int i = 0; i < this.value_threshold.length; i++){
-            answer += Math.pow(this.value_threshold[i] - mean,2);
-        }
-        answer = Math.sqrt(answer / (this.value_threshold.length - 1));
-        return answer;
+        this.STDDEV = StdStats.stddev(this.value_threshold);
+        return this.STDDEV;
     }
 
     // low endpoint of 95% confidence interval
     public double confidenceLo(){
-        return mean() - (Math.sqrt(stddev()) / Math.sqrt(this.value_threshold.length));
+        return this.MEAN - ((this.CONFIDENCE_95 * this.STDDEV) / Math.sqrt(this.value_threshold.length));
     }
 
     // high endpoint of 95% confidence interval
     public double confidenceHi(){
-        return mean() + (Math.sqrt(stddev()) / Math.sqrt(this.value_threshold.length));
+        return this.MEAN + ((this.CONFIDENCE_95 * this.STDDEV) / Math.sqrt(this.value_threshold.length));
     }
 
     // test client (see below)
@@ -60,7 +56,7 @@ public class PercolationStats {
         int trials = 100000;
 
         PercolationStats pStats = new PercolationStats(n, trials);
-        System.out.printf("mean                    = %.17f\n", pStats.mean());
+        System.out.printf("mean                    = %f\n", pStats.mean());
         System.out.printf("stddev                  = %f\n", pStats.stddev());
         System.out.printf("95%% confidence interval = [%f, %f]\n", pStats.confidenceLo(), pStats.confidenceHi()); //'%'' have to notice %% else "Format error"
 

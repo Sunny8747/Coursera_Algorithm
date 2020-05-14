@@ -1,21 +1,19 @@
 package Union_find;
-
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 //import edu.princeton.cs.algs4.QuickFindUF;
-
-/*import edu.princeton.cs.algs4.StdStats;
-import edu.princeton.cs.algs4.StdIn;
-import edu.princeton.cs.algs4.StdOut;*/
-
+//import edu.princeton.cs.algs4.StdStats;
+//import edu.princeton.cs.algs4.StdIn;
+//import edu.princeton.cs.algs4.StdOut;
 
 public class Percolation {
     //create n x n grid, all blocked
     // if you want to use Quick_find algorithm then just change it
     //private QuickFindUF quf;
-    private WeightedQuickUnionUF wquf;
+    private final WeightedQuickUnionUF wquf;
 
     private final int GRID_SIZE, TOP_INDEX, BOTTOM_INDEX;
+    private int open_site = 0;
     private boolean [] grid;
 
     //loc : 1 ~ n^2
@@ -40,42 +38,42 @@ public class Percolation {
         if(row > this.GRID_SIZE || col > this.GRID_SIZE || row <= 0 || col <= 0){
             throw new IllegalArgumentException();
         }
-        int loc = (col-1)* this.GRID_SIZE + row;
+        int loc = (row-1)* this.GRID_SIZE + col;
         if(this.grid[loc] == false){
+            open_site++;
             this.grid[loc] = true;
             check_adjacent_isOpen(row, col);
         }
     }
     //check adjacent grid if isOpen then union to origin node
-    public void check_adjacent_isOpen(int row, int col){
-        int loc = (col-1)* this.GRID_SIZE + row;
-        
+    private void check_adjacent_isOpen(int row, int col){
+        int loc = (row-1)* this.GRID_SIZE + col;
+
         //if first line and last line  'isOpen'  then  'union'  to TOP, BOTTOM  
-        if(col == 1){
+        if(row == 1){
             this.wquf.union(loc,TOP_INDEX);
         }
-        if(col == this.GRID_SIZE){
+        if(row == this.GRID_SIZE){
             this.wquf.union(loc,BOTTOM_INDEX);
         }
-
-        if(col != 1){//top line
-            if(isOpen(row, col-1) == true){//up is open
-                this.wquf.union(loc, (col-2)* this.GRID_SIZE + row);//union
+        if(row != 1){//upper grid
+            if(isOpen(row-1, col) == true){//up is open
+                this.wquf.union(loc, (row-2)* this.GRID_SIZE + col);//union
             }
         }
-        if(row != this.GRID_SIZE){//right line
-            if(isOpen(row+1, col) == true){
-                this.wquf.union(loc, (col-1)* this.GRID_SIZE + row + 1);//union
-            }
-        }
-        if(col != this.GRID_SIZE){//bottom line
+        if(col != this.GRID_SIZE){//right grid
             if(isOpen(row, col+1) == true){
-                this.wquf.union(loc, (col)* this.GRID_SIZE + row);//union
+                this.wquf.union(loc, (row-1)* this.GRID_SIZE + col + 1);//union
             }
         }
-        if(row != 1) {//left line
-            if(isOpen(row-1, col) == true){
-                this.wquf.union(loc, (col-1)* this.GRID_SIZE + row - 1);//union
+        if(row != this.GRID_SIZE){//bottom grid
+            if(isOpen(row+1, col) == true){
+                this.wquf.union(loc, (row)* this.GRID_SIZE + col);//union
+            }
+        }
+        if(col != 1) {//left grid
+            if(isOpen(row, col-1) == true){
+                this.wquf.union(loc, (row-1)* this.GRID_SIZE + col - 1);//union
             }
         }
     }
@@ -85,7 +83,7 @@ public class Percolation {
         if(row > this.GRID_SIZE || col > this.GRID_SIZE || row <= 0 || col <= 0){
             throw new IllegalArgumentException();
         }
-        int loc = (col-1)* this.GRID_SIZE + row;
+        int loc = (row-1)* this.GRID_SIZE + col;
         return this.grid[loc];
     }
 
@@ -94,21 +92,15 @@ public class Percolation {
         if(row > this.GRID_SIZE || col > this.GRID_SIZE || row <= 0 || col <= 0){
             throw new IllegalArgumentException();
         }
-        int loc = (col-1) * this.GRID_SIZE + row;
-        if(this.wquf.find(loc) == this.wquf.find(0)){
+        int loc = (row-1)* this.GRID_SIZE + col;
+        if(this.wquf.find(loc) == this.wquf.find(this.TOP_INDEX)){
             return true;
         }
         return false;
     }
     //return the number of open sites
     public int numberOfOpenSites(){
-        int num_site = 0;
-        for(int i = 1; i< this.BOTTOM_INDEX; i++){
-            if(this.grid[i] == true){
-                num_site++;
-            }
-        }
-        return num_site;
+        return this.open_site;
     }
     //does the system percolate?
     public boolean percolates(){
