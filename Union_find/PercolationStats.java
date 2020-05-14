@@ -1,4 +1,5 @@
 package Union_find;
+
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 import edu.princeton.cs.algs4.StdStats;
@@ -10,7 +11,7 @@ import edu.princeton.cs.algs4.StdStats;
 public class PercolationStats {
     // perform independent trials on an n-by-n grid
     private final double[] value_threshold;
-    private final static double CONFIDENCE_95 = 1.96;
+    private final double CONFIDENCE_95 = 1.96;
     private double MEAN, STDDEV;
     public PercolationStats(int n, int trials){
         if(n <= 0 || trials <= 0){
