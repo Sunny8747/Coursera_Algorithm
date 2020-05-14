@@ -3,7 +3,7 @@ Princeton_Univ_ASAP
 
 Reviewing my old study
 
-Python3, C++ doubled language assingment
+Java, Python3, C++ assingment
 
 Start 2020/05/12
 
