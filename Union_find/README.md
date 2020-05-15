@@ -1,7 +1,6 @@
-Analysis Of Algorithms
+Union Find
 ===========
-Mathmatically Analysis
-# 1. Quick Find
+## 1. Quick Find
 - Tag : flat, tree, graph, find  
 - Defect :  
     > 1. Union too expensive
@@ -12,7 +11,7 @@ Mathmatically Analysis
     > * Union - N  
     > * Find - 1  
 
-# 2. Quick Union
+## 2. Quick Union
 - Tag : tree, forest, graph, find node
 - Defect :  
     > 1. Trees can get tall
@@ -24,7 +23,7 @@ Mathmatically Analysis
     > * Union - N * includes cost of finding roots  
     > * find - N *worst case
 
-# 3. Quick Union Improved
+## 3. Quick Union Improved
 - Weighting : linking root of smaller tree to root of larger tree (height or rank)  
 
     > __Running Time__  
@@ -36,7 +35,7 @@ Mathmatically Analysis
 - QU + path compression = N + M log N
 - weighted QU + path compression = N + M lg N
 
-# 4. Application
+## 4. Application
 - Percolation
 - Dynamics connectivity
 - Equivanlence of finite state automata
@@ -46,7 +45,7 @@ Mathmatically Analysis
 
 <hr/>
 
-# Assignment#1
+## Assignment#1
 - Percolation : Java
 - 93/100
 - Fail backwash test
