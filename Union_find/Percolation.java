@@ -49,8 +49,7 @@ public class Percolation {
     //check adjacent grid if isOpen then union to origin node
     private void check_adjacent_isOpen(int row, int col){
         int loc = (row-1)* this.GRID_SIZE + col;
-
-        //if first line and last line  'isOpen'  then  'union'  to TOP, BOTTOM  
+        //if first line and last line  'isOpen'  then  'union'  to TOP, BOTTOM
         if(row == 1){
             this.wquf.union(loc,TOP_INDEX);
         }
