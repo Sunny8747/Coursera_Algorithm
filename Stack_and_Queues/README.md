@@ -42,8 +42,9 @@ Stack, Queue data structure
 ## 2. Linked List, Resizing Array
 
 ### 1) Linked List
-- Pros : Continueous uniform operation
-- Cons : Use More memory(pointer), More slower
+- 장점 : 일관된 퍼포머스를 유지가능 (Maintain consistent performance)
+- 단점 : Use More memory(pointer), More slower
+
 
 ```c++
     class LinkedList(){
@@ -67,7 +68,7 @@ Stack, Queue data structure
 
 ### 2) Resizing Array
 - Pros : More faster
-- Cons : Less wated memory, Resizing makes uncontinueous operation
+- Cons : Less wated memory, 리사이징 하는순간 많은 작업이 걸림 따라서 비연속적인 작업 발생 (Resizing makes uncontinueous operation)
 
 ```c++
     class Resizing_Array(){
@@ -106,7 +107,7 @@ Stack, Queue data structure
 ```
 <hr/>
 
-## 3. Generic
+## 3. Generic (나중에 추가로 따로정리)
 - Make function style for __modular programming__.
 - Undetermined data type.
 - Similar to 'Template' in C++
@@ -148,7 +149,37 @@ Stack, Queue data structure
 ```
 <hr/>
 
-## 4. Iterator
-- iterator 중요
+## 4. Iterator (나중에 추가로 따로정리해야됨)
+- iterator : hasNext(), next() 함수가 존재하게 만드는 인터페이스
+- iterable : public Iterator iterator() 가 존재하게 만드는 인터페이스
+- interface
+    * 클래스의 뼈대 'blueprint' 라고 볼수있다
+    * ___추상화(virtualization)___ 를 하기위함이다.
+    * __다중상속__ 을 지원한다
+
+    https://javatpoint.com/interface-in-java
+
+```java
+    public class Stack<Item> implements Iterable<Item>{
+        ...
+        public Iterator<Item> iterator() { return new ListIterator();}
+
+        //이것이 위에서 콜링된다 전형적인 encapsulation
+        private class ListIterator implements Iterator<Item>{
+            private Node current = first;
+
+            public boolean hasNext(){...}
+            public Item next(){...}
+            public void remove(){...}
+        }
+    }
+```
+
+## 5. Aplication
+
+- java.util.List
+- java.util.Stack -> Bad designed
+- java.util.Queue : Interface
+- java.util.Bag
 
 <hr/>
