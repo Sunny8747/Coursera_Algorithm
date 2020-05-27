@@ -1,4 +1,4 @@
-package Stack_and_Queues;
+//package Stack_and_Queues;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -9,7 +9,7 @@ public class Deque<Item> implements Iterable<Item> {
     private int deque_size;
 
     private class Node {
-        private Item item;
+        private final Item item;
         private Node next_node;
         private Node prev_node;
 
@@ -22,11 +22,8 @@ public class Deque<Item> implements Iterable<Item> {
 
     // construct an empty deque
     public Deque() {
-        Node init_node = new Node(null);
-        this.header = init_node;
-        this.tail = init_node;
-        this.header.next_node = null;
-        this.tail.prev_node = null;
+        this.header = null;
+        this.tail = null;
         this.deque_size = 0;
     }
 
@@ -34,7 +31,8 @@ public class Deque<Item> implements Iterable<Item> {
     public boolean isEmpty() {
         if (this.deque_size == 0) {
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }
@@ -56,11 +54,13 @@ public class Deque<Item> implements Iterable<Item> {
         if (this.deque_size == 0) {// empty header tail
             this.header = new_node;
             this.tail = new_node;
-        } else if (this.deque_size == 1) {// header tail points same node
+        }
+        else if (this.deque_size == 1) {// header tail points same node
             this.header = new_node;
             new_node.next_node = this.tail;
             this.tail.prev_node = new_node;
-        } else {
+        }
+        else {
             Node old_first_node = this.header;
             this.header = new_node;
             new_node.next_node = old_first_node;
@@ -81,11 +81,13 @@ public class Deque<Item> implements Iterable<Item> {
         if (this.deque_size == 0) {// empty header tail
             this.header = new_node;
             this.tail = new_node;
-        } else if (this.deque_size == 1) {// header tail points same node
+        }
+        else if (this.deque_size == 1) {// header tail points same node
             this.tail = new_node;
             new_node.prev_node = this.header;
             this.header.next_node = new_node;
-        } else {
+        }
+        else {
             Node old_last_node = this.tail;
             this.tail = new_node;
             new_node.prev_node = old_last_node;
@@ -105,7 +107,8 @@ public class Deque<Item> implements Iterable<Item> {
         if (deque_size == 1) {
             this.header = null;
             this.tail = null;
-        } else {
+        }
+        else {
             Node second_node = this.header.next_node;
             this.header = second_node;
             second_node.prev_node = null;
@@ -125,7 +128,8 @@ public class Deque<Item> implements Iterable<Item> {
         if (deque_size == 1) {
             this.header = null;
             this.tail = null;
-        } else {
+        }
+        else {
             Node second_node = this.tail.prev_node;
             this.tail = second_node;
             second_node.next_node = null;
@@ -144,6 +148,11 @@ public class Deque<Item> implements Iterable<Item> {
 
         // non-null : true null : false
         public boolean hasNext() {
+            if (current == header) {
+                if (header.item == null) {
+                    return false;
+                }
+            }
             return current != null;
         }
 
@@ -196,7 +205,7 @@ public class Deque<Item> implements Iterable<Item> {
         deque.removeFirst();
         deque.removeFirst();
 
-        iter = deque.iterator();
+        // iter = deque.iterator();
         // int something = iter.next();
         System.out.printf("tested all Exception");
     }

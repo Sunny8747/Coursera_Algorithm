@@ -1,4 +1,4 @@
-package Stack_and_Queues;
+//package Stack_and_Queues;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -36,9 +36,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (this.queue_size == 0) {
             return true;
         }
-        else if (this.queue_size == 1) {
-            return true;
-        }
         else {
             return false;
         }
@@ -71,12 +68,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     // remove and return a random item
-    // 문제발생 nullpointer exception
-    // 아마 prev이런거 돌리다가 빈칸잡는듯
     public Item dequeue() {
         if (this.queue_size == 0) {
-            System.out.printf("size = %d\n", queue_size);
-            throw new NoSuchElementException("dequeue() size = 0 NoSuchElementException\n");
+            throw new NoSuchElementException();
         }
         Item result = null;
         if (queue_size == 1) {
@@ -104,7 +98,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
                 else {
                     int count = 1;
                     Node temp_node = header;
-                    System.out.println(rand_num);
                     while (rand_num != count) {
                         count++;
                         temp_node = temp_node.next_node;
@@ -118,7 +111,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             }
         }
         queue_size--;
-        System.out.printf("result : %d\n", result);
         return result;
     }
 
@@ -133,7 +125,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             this.header = null;
             this.tail = null;
         }
-        else if (true) {
+        else {
             int rand_num = StdRandom.uniform(1, queue_size + 1);
             final Iterator<Item> iter = this.iterator();
             while (rand_num != 0) {
@@ -141,19 +133,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
                 result = iter.next();
             }
         }
-        queue_size--;
         return result;
     }
 
     // return an independent iterator over items in random order
     public Iterator<Item> iterator() {
         return new RandomizedQueueIterator();
-    }
-
-    public int test(int mass) {
-        int tet = 2;
-        mass = tet;
-        return tet;
     }
 
     private class RandomizedQueueIterator implements Iterator<Item> {
