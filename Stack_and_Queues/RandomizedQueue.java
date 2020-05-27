@@ -9,12 +9,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private Node header;
     private Node tail;
 
-    private class Node{
-        private Item item;
+    private class Node {
+        private final Item item;
         private Node next_node;
         private Node prev_node;
 
-        Node(Item new_item) {
+        Node(final Item new_item) {
             this.item = new_item;
             this.next_node = null;
             this.prev_node = null;
@@ -22,8 +22,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     // construct an empty randomized queue
-    public RandomizedQueue(){
-        Node init_node = new Node(null);
+    public RandomizedQueue() {
+        final Node init_node = new Node(null);
         this.header = init_node;
         this.tail = init_node;
         this.header.next_node = null;
@@ -32,34 +32,37 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     // is the randomized queue empty?
-    public boolean isEmpty(){
-        if(this.queue_size == 0){
+    public boolean isEmpty() {
+        if (this.queue_size == 0) {
             return true;
         }
-        else{
+        else if (this.queue_size == 1) {
+            return true;
+        }
+        else {
             return false;
         }
     }
 
     // return the number of items on the randomized queue
-    public int size(){
+    public int size() {
         return this.queue_size;
     }
 
     // add the item
-    public void enqueue(Item item){
-        if(item == null){
+    public void enqueue(final Item item) {
+        if (item == null) {
             throw new IllegalArgumentException();
         }
 
-        Node new_node = new Node(item);
+        final Node new_node = new Node(item);
 
-        if(this.queue_size == 0){
+        if (this.queue_size == 0) {
             this.header = new_node;
             this.tail = new_node;
         }
-        else{
-            Node last_node = this.tail;
+        else {
+            final Node last_node = this.tail;
             this.tail = new_node;
             new_node.prev_node = last_node;
             last_node.next_node = new_node;
@@ -68,66 +71,71 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     // remove and return a random item
-    //문제발생
-    public Item dequeue(){
-        if(this.queue_size == 0){
-            throw new NoSuchElementException();
+    // 문제발생 nullpointer exception
+    // 아마 prev이런거 돌리다가 빈칸잡는듯
+    public Item dequeue() {
+        if (this.queue_size == 0) {
+            System.out.printf("size = %d\n", queue_size);
+            throw new NoSuchElementException("dequeue() size = 0 NoSuchElementException\n");
         }
         Item result = null;
-        if(queue_size == 1){
+        if (queue_size == 1) {
             result = this.header.item;
             this.header = null;
             this.tail = null;
         }
-        else{
-            int rand_num = StdRandom.uniform(1, queue_size + 1);
-            //Iterator<Item> iter = this.iterator();
+        else {
+            final int rand_num = StdRandom.uniform(1, queue_size + 1);
+            // Iterator<Item> iter = this.iterator();
 
-            if(rand_num == 1){// header node
+            if (rand_num == 1) {// header node
                 result = this.header.item;
                 this.header = this.header.next_node;
                 this.header.prev_node = null;
             }
-            else{
-                if(rand_num == queue_size){// tail node
+            else {
+                if (rand_num == queue_size) {// tail node
                     result = this.tail.item;
                     this.tail = this.tail.prev_node;
                     this.tail.next_node = null;
                 }
-                else{
+                else {
                     int count = 1;
                     Node temp_node = header;
-                    while(rand_num == count){
+                    System.out.println(rand_num);
+                    while (rand_num != count) {
                         count++;
                         temp_node = temp_node.next_node;
                     }
                     result = temp_node.item;
-                    Node prev_node = temp_node.prev_node;
-                    Node next_node = temp_node.next_node;
+                    final Node prev_node = temp_node.prev_node;
+                    final Node next_node = temp_node.next_node;
                     prev_node.next_node = next_node;
                     next_node.prev_node = prev_node;
                 }
             }
         }
         queue_size--;
+        System.out.printf("result : %d\n", result);
         return result;
     }
 
     // return a random item (but do not remove it)
-    public Item sample(){
-        if(this.queue_size == 0){
-            throw new NoSuchElementException();
+    public Item sample() {
+        if (this.queue_size == 0) {
+
+            throw new NoSuchElementException("sample() size = 0 NoSuchElementException\n");
         }
         Item result = null;
-        if(queue_size == 1){
+        if (queue_size == 1) {
             result = this.header.item;
             this.header = null;
             this.tail = null;
         }
-        else{
+        else if (true) {
             int rand_num = StdRandom.uniform(1, queue_size + 1);
-            Iterator<Item> iter = this.iterator();
-            while(rand_num != 0){
+            final Iterator<Item> iter = this.iterator();
+            while (rand_num != 0) {
                 rand_num--;
                 result = iter.next();
             }
@@ -137,118 +145,119 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     // return an independent iterator over items in random order
-    public Iterator<Item> iterator(){
+    public Iterator<Item> iterator() {
         return new RandomizedQueueIterator();
     }
 
-    private class RandomizedQueueIterator implements Iterator<Item>{
+    public int test(int mass) {
+        int tet = 2;
+        mass = tet;
+        return tet;
+    }
+
+    private class RandomizedQueueIterator implements Iterator<Item> {
         private Node current = header;
 
-        // non-null : true    null : false
-        public boolean hasNext(){
+        // non-null : true null : false
+        public boolean hasNext() {
             return current != null;
         }
-        public Item next(){
-            if(current == null){
-                throw new NoSuchElementException();
+
+        public Item next() {
+            if (current == null) {
+                throw new NoSuchElementException("Iterator next() NoSuchElementException\n");
             }
-            Item item = current.item;
+            final Item item = current.item;
             current = current.next_node;
             return item;
         }
-        public void remove(){
+
+        public void remove() {
             throw new UnsupportedOperationException("remove() is Unsupported Oeration\n");
         }
     }
 
     // unit testing (required)
-    public static void main(String[] args) {
-        RandomizedQueue<Integer> rdq = new RandomizedQueue<>();
-        for(int i = 0; i<10; i++){
+    public static void main(final String[] args) {
+        final RandomizedQueue<Integer> rdq = new RandomizedQueue<>();
+        for (int i = 0; i < 10; i++) {
             rdq.enqueue(i);
         }
         Iterator<Integer> iter = rdq.iterator();
-        while(iter.hasNext()){
-            System.out.printf("%d ",iter.next());
-        }
-        System.out.printf("\n");
-        
-        System.out.printf("%d\n",rdq.dequeue());
-        iter = rdq.iterator();
-        while(iter.hasNext()){
-            System.out.printf("%d ",iter.next());
+        while (iter.hasNext()) {
+            System.out.printf("%d ", iter.next());
         }
         System.out.printf("\n");
 
-        System.out.printf("%d\n",rdq.sample());
+        System.out.printf("%d\n", rdq.dequeue());
         iter = rdq.iterator();
-        while(iter.hasNext()){
-            System.out.printf("%d ",iter.next());
+        while (iter.hasNext()) {
+            System.out.printf("%d ", iter.next());
         }
         System.out.printf("\n");
 
-        System.out.printf("%d\n",rdq.dequeue());
+        System.out.printf("%d\n", rdq.sample());
         iter = rdq.iterator();
-        while(iter.hasNext()){
-            System.out.printf("%d ",iter.next());
+        while (iter.hasNext()) {
+            System.out.printf("%d ", iter.next());
         }
         System.out.printf("\n");
 
-        System.out.printf("%d\n",rdq.dequeue());
+        System.out.printf("%d\n", rdq.dequeue());
         iter = rdq.iterator();
-        while(iter.hasNext()){
-            System.out.printf("%d ",iter.next());
+        while (iter.hasNext()) {
+            System.out.printf("%d ", iter.next());
         }
         System.out.printf("\n");
 
-        System.out.printf("%d\n",rdq.dequeue());
+        System.out.printf("%d\n", rdq.dequeue());
         iter = rdq.iterator();
-        while(iter.hasNext()){
-            System.out.printf("%d ",iter.next());
+        while (iter.hasNext()) {
+            System.out.printf("%d ", iter.next());
         }
         System.out.printf("\n");
 
-        System.out.printf("%d\n",rdq.dequeue());
+        System.out.printf("%d\n", rdq.dequeue());
         iter = rdq.iterator();
-        while(iter.hasNext()){
-            System.out.printf("%d ",iter.next());
+        while (iter.hasNext()) {
+            System.out.printf("%d ", iter.next());
         }
         System.out.printf("\n");
 
-        System.out.printf("%d\n",rdq.dequeue());
+        System.out.printf("%d\n", rdq.dequeue());
         iter = rdq.iterator();
-        while(iter.hasNext()){
-            System.out.printf("%d ",iter.next());
+        while (iter.hasNext()) {
+            System.out.printf("%d ", iter.next());
         }
         System.out.printf("\n");
 
-        System.out.printf("%d\n",rdq.dequeue());
+        System.out.printf("%d\n", rdq.dequeue());
         iter = rdq.iterator();
-        while(iter.hasNext()){
-            System.out.printf("%d ",iter.next());
+        while (iter.hasNext()) {
+            System.out.printf("%d ", iter.next());
         }
         System.out.printf("\n");
 
-        System.out.printf("%d\n",rdq.dequeue());
+        System.out.printf("%d\n", rdq.dequeue());
         iter = rdq.iterator();
-        while(iter.hasNext()){
-            System.out.printf("%d ",iter.next());
+        while (iter.hasNext()) {
+            System.out.printf("%d ", iter.next());
         }
         System.out.printf("\n");
 
-        System.out.printf("%d\n",rdq.dequeue());
+        System.out.printf("%d\n", rdq.dequeue());
         iter = rdq.iterator();
-        while(iter.hasNext()){
-            System.out.printf("%d ",iter.next());
+        while (iter.hasNext()) {
+            System.out.printf("%d ", iter.next());
         }
         System.out.printf("\n");
 
-        System.out.printf("%d\n",rdq.dequeue());
+        System.out.printf("%d\n", rdq.dequeue());
         iter = rdq.iterator();
-        while(iter.hasNext()){
-            System.out.printf("%d ",iter.next());
+        while (iter.hasNext()) {
+            System.out.printf("%d ", iter.next());
         }
         System.out.printf("\n");
-
+        System.out.printf("size = %d\n", rdq.size());
     }
 }
