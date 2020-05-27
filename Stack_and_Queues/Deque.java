@@ -1,4 +1,4 @@
-//package Stack_and_Queues;
+package Stack_and_Queues;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
