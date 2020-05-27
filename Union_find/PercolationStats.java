@@ -61,12 +61,9 @@ public class PercolationStats {
         PercolationStats pStats = new PercolationStats(n, trials);
         System.out.printf("mean                    = %f\n", pStats.mean());
         System.out.printf("stddev                  = %f\n", pStats.stddev());// what's the problem
-        System.out.printf("95%% confidence interval = [%f, %f]\n", pStats.confidenceLo(), pStats.confidenceHi());// '%'
-                                                                                                                 // have
-                                                                                                                 // to
-                                                                                                                 // notice
-                                                                                                                 // as
-                                                                                                                 // %%
+
+        // '%' have to notice as %%
+        System.out.printf("95%% confidence interval = [%f, %f]\n", pStats.confidenceLo(), pStats.confidenceHi());
 
         // System.out.printf("elapsetime : %f", sw.elapsedTime());
     }

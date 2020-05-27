@@ -88,13 +88,15 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             final int rand_num = StdRandom.uniform(1, queue_size + 1);
             // Iterator<Item> iter = this.iterator();
 
-            if (rand_num == 1) {// header node
+            // header node
+            if (rand_num == 1) {
                 result = this.header.item;
                 this.header = this.header.next_node;
                 this.header.prev_node = null;
             }
             else {
-                if (rand_num == queue_size) {// tail node
+                // tail node
+                if (rand_num == queue_size) {
                     result = this.tail.item;
                     this.tail = this.tail.prev_node;
                     this.tail.next_node = null;
@@ -123,7 +125,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // return a random item (but do not remove it)
     public Item sample() {
         if (this.queue_size == 0) {
-
             throw new NoSuchElementException("sample() size = 0 NoSuchElementException\n");
         }
         Item result = null;
