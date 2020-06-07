@@ -9,4 +9,4 @@ Reviewing my old study
 Java, Python3, C++ assingment
 
 Start 2020/05/12
-expectated end 2020/05/30 -> 2020/06/07
+expectated end 2020/05/30 -> 2020/06/30
